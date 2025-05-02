@@ -90,6 +90,17 @@ public class N2Solution {
         elements = newElements;
         prevRebuilds++;
     }
+    public void printHashTable() {
+        int i = 0;
+        for (String slot : hashTable) {
+            System.out.print("Index = " + i++);
+            if (slot == null) {
+                System.out.println(" → empty");
+            } else {
+                System.out.println(" → element = " + slot);
+            }
+        }
+    }
 
     public static void main(String[] args) {
         // Initialize hash table with size 4 (will use 16 slots since N²)
