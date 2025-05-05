@@ -20,9 +20,9 @@ public class NSolution {
         sethash();
     }
     public  void sethash(){
-        firstlevel = new ArrayList[inputSize*8];
-        secondlevel = new N2Solution[inputSize *8];
-        universalHashingMatrix = new int[(int) Math.floor(Math.log10(inputSize*8)/Math.log10(2))][63];
+        firstlevel = new ArrayList[inputSize*5];
+        secondlevel = new N2Solution[inputSize *5];
+        universalHashingMatrix = new int[(int) Math.floor(Math.log10(inputSize*5)/Math.log10(2))][63];
         randomizeMatrix();
     }
     private void randomizeMatrix() {
@@ -36,39 +36,37 @@ public class NSolution {
         int[] result = UniversalHashing.matrixmultiplication(universalHashingMatrix, binary);
         return  UniversalHashing.binaryToDecimal(result);
     }
-    private void secondlevelHash(int index,String item,int size){
-        N2Solution n2Solution = new N2Solution(size);
-        if (firstlevel[index] == null){
+    private void secondLevelHash(int index,String item, int size) {
+        N2Solution nSquare = new N2Solution(size);
+        if (firstlevel[index] == null)
             return;
-        }
-        if(firstlevel[index].contains(item)){
+        if (firstlevel[index].contains(item))
             return;
+            firstlevel[index].add(item);
+        for (String entry : firstlevel[index]) {
+            nSquare.insert(entry);
         }
-        firstlevel[index].add(item);
-        for(String entry: firstlevel[index]){
-            n2Solution.insert(entry);
-        }
-        secondlevel[index] = n2Solution;
+        secondlevel[index] = nSquare;
     }
     
-    public boolean insert(String item){
-        int index = firstlevelHash(item);
-        if (firstlevel[index] == null || firstlevel[index].isEmpty()){
+    public boolean insert(String key) {
+        int index = firstlevelHash(key);
+        if (firstlevel[index] == null || firstlevel[index].isEmpty()) {
             firstlevel[index] = new ArrayList<>();
-            firstlevel[index].add(item);
+            firstlevel[index].add(key);
+            elements.add(key);
             numberOfElements++;
-            elements.add(item);
             return true;
         }
         int size = firstlevel[index].size();
-        if(elements.contains(item)){
+        if (elements.contains(key))
             return false;
-        }
-        elements.add(item);
+        elements.add(key);
         numberOfElements++;
-        secondlevelHash(index, item, size);  
+        secondLevelHash(index, key, size + 1);
         return true;
     }
+    
     public boolean delete(String item){
         int index = firstlevelHash(item);
         if (firstlevel[index] == null || !firstlevel[index].contains(item)){
@@ -143,30 +141,32 @@ public class NSolution {
             nSolution.insert("grape");
             nSolution.insert("apple"); // duplicate
             nSolution.insert("banana"); // duplicate
-            nSolution.insert("honeydew");
+            nSolution.insert("d");
+            nSolution.insert("a");
+            nSolution.insert("s");
+            nSolution.insert("v");
+            nSolution.insert("s");
+            nSolution.insert("sad");
         
             // Print hash tables
             nSolution.printFirstLevelTable();
             nSolution.printSecondLevelTables();
         
-            // ✅ Test Search
-            System.out.println("\n--- Search Tests ---");
-            System.out.println("Searching for 'banana': " + nSolution.search("banana")); // true
-            System.out.println("Searching for 'kiwi': " + nSolution.search("kiwi"));     // false
+            // //
+            // System.out.println("\n--- Search Tests ---");
+            // System.out.println("Searching for 'banana': " + nSolution.search("banana")); // true
+            // System.out.println("Searching for 'kiwi': " + nSolution.search("kiwi"));     // false
         
-            // ✅ Test Delete
-            System.out.println("\n--- Delete Tests ---");
-            System.out.println("Deleting 'banana': " + nSolution.delete("banana")); // true
-            System.out.println("Deleting 'kiwi': " + nSolution.delete("kiwi"));     // false
+            // // 
+            // System.out.println("\n--- Delete Tests ---");
+            // System.out.println("Deleting 'banana': " + nSolution.delete("banana")); // true
+            // System.out.println("Deleting 'kiwi': " + nSolution.delete("kiwi"));     // false
         
-            // Verify deletion
-            System.out.println("Searching for 'banana' after deletion: " + nSolution.search("banana")); // false
+            // // Verify deletion
+            // System.out.println("Searching for 'banana' after deletion: " + nSolution.search("banana")); // false
         
-            // Print updated hash tables
-            nSolution.printFirstLevelTable();
-            nSolution.printSecondLevelTables();
+            // nSolution.printFirstLevelTable();
+            // nSolution.printSecondLevelTables();
         }
-        
-
-
+    
 }
