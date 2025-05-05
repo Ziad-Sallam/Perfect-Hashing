@@ -43,7 +43,15 @@ public class Main {
             System.out.println("9. Exit");
             System.out.print("Choose an operation: ");
 
-            int action = scanner.nextInt();
+            int action ;
+            try{
+                action = scanner.nextInt();
+            }
+            catch (Exception e){
+                System.out.println("Invalid input. Please enter a number between 1 and 9.");
+                scanner.nextLine(); // consume invalid input
+                continue;
+            }
             scanner.nextLine(); // consume newline
 
             switch (action) {
