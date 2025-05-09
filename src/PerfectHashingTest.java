@@ -166,14 +166,14 @@ public class PerfectHashingTest {
     @Test
     public void test15_largeBatchInsert_N() throws IOException {
         FileWriter writer = new FileWriter("large_batch.txt");
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 100000; i++) {
             writer.write("item" + i + "\n");
         }
         writer.write("item1\n");  // duplicate
         writer.close();
 
         int[] result = BatchProcessor.batchInsertFromFile(nSolution, "large_batch.txt");
-        assertEquals(100, result[0]);
+        assertEquals(100000, result[0]);
         assertEquals(1, result[1]);
     }
 
